@@ -1,11 +1,3 @@
-Tentu, ini adalah bagian yang paling memuaskan dari sebuah proyek: menulis dokumentasi yang rapi dan profesional!
-
-Karena arsitektur DevPulse ini sangat unik (menggabungkan React, Vue, dan Angular secara bersamaan melalui *Module Federation*), dokumentasi ini akan sangat berfokus pada **Alur Kerja (Workflow)** dan **Mekanisme Mounting Lintas Framework**.
-
-Berikut adalah draf `README.md` yang siap kamu salin dan tempel ke *root folder* proyekmu. Bahasanya sudah aku sesuaikan dengan standar repositori *open-source* profesional.
-
----
-
 # ⚡ DevPulse
 
 DevPulse adalah purwarupa arsitektur **Micro-Frontend (MFE)** lintas *framework* yang didesain dengan estetika *Dark Industrial Terminal*. Proyek ini mendemonstrasikan bagaimana aplikasi skala besar dapat dipecah menjadi unit-unit kecil yang independen (*remotes*), dikembangkan dengan *tech-stack* yang berbeda, namun tetap menyatu secara mulus dalam satu cangkang (*App Shell*) tunggal.

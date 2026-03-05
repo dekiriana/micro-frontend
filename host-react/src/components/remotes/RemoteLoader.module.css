@@ -1,0 +1,282 @@
+/* RemoteLoader.module.css */
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1); }
+}
+
+.remoteContainer {
+  width: 100%;
+  height: 100%;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SKELETON ===== */
+.skeleton {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 1. GABUNGKAN PROPERTI YANG BERULANG DI SINI */
+.skeletonTitle,
+.skeletonBadge,
+.skeletonLine {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-hover) 50%,
+    var(--bg-elevated) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* 2. DEFINISIKAN UKURAN SPESIFIK UNTUK MASING-MASING ELEMEN */
+.skeletonHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.skeletonTitle {
+  height: 20px;
+  width: 160px;
+  border-radius: 4px;
+}
+
+.skeletonBadge {
+  height: 18px;
+  width: 60px;
+  border-radius: 10px;
+}
+
+.skeletonBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeletonLine {
+  height: 12px;
+  border-radius: 4px;
+  /* Kita bisa meng-override durasi animasi khusus untuk baris ini agar terlihat lebih dinamis */
+  animation-duration: 1.8s; 
+}
+
+.loadingLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.loadingDot {
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+/* ===== ERROR STATE ===== */
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.errorIcon {
+  font-size: 32px;
+  color: var(--yellow);
+  line-height: 1;
+}
+
+.errorTitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.errorMsg {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.errorCode {
+  font-family: var(--font-mono);
+  color: var(--red);
+  background: rgba(248, 81, 73, 0.1);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.errorDetail {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.errorDetail code {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  background: var(--accent-subtle);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.retryBtn {
+  margin-top: 8px;
+  padding: 8px 20px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.retryBtn:hover {
+  border-color: var(--accent-dim);
+  color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+/* ===== PLACEHOLDER ===== */
+.placeholder {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+
+.placeholderHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.placeholderTag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+
+.placeholderTitle {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.placeholderBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Terminal mockup */
+.placeholderTerminal {
+  background: var(--bg-void);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 540px;
+}
+
+.terminalBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.termDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.termTitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 6px;
+}
+
+.terminalBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.termLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.termPrompt {
+  color: var(--accent);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.termCmd { color: var(--text-primary); }
+.termOutput { color: var(--text-secondary); }
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 1px;
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+.placeholderHint {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+.placeholderHint code {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+  padding: 1px 5px;
+  border-radius: 3px;
+}

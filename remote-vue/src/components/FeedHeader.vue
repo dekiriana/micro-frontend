@@ -14,19 +14,36 @@
         <h1 class="page-title">The Feed</h1>
         <p class="page-sub">{{ filteredCount }} articles · updated just now</p>
       </div>
+
       <div class="header-actions">
+        <!-- Bookmark toggle -->
         <button
           :class="['action-btn', showBookmarks ? 'active' : '']"
           @click="$emit('toggle-bookmarks')"
           :title="`Bookmarks (${bookmarkCount})`"
         >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 1h10v12l-5-3-5 3V1z"
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M2 1h9v11l-4.5-2.8L2 12V1z"
               :fill="showBookmarks ? 'currentColor' : 'none'"
-              stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+              stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
           </svg>
           <span>{{ bookmarkCount }}</span>
         </button>
+
+        <!-- Create post button — visible only to admin -->
+        <Transition name="btn-appear">
+          <button
+            v-if="canCreate"
+            class="create-btn"
+            @click="$emit('create-post')"
+            title="Write a new article"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>New Article</span>
+          </button>
+        </Transition>
       </div>
     </div>
 
@@ -60,11 +77,7 @@
           : {}"
         @click="$emit('set-tag', tag.id)"
       >
-        <span
-          v-if="tag.id !== 'all'"
-          class="tag-dot"
-          :style="{ background: tag.color }"
-        />
+        <span v-if="tag.id !== 'all'" class="tag-dot" :style="{ background: tag.color }" />
         {{ tag.label }}
       </button>
     </div>
@@ -81,12 +94,13 @@ const props = defineProps({
   showBookmarks: Boolean,
   bookmarkCount: Number,
   filteredCount: Number,
+  canCreate:     { type: Boolean, default: false },
 })
 
-const emit = defineEmits(['update:searchQuery', 'set-tag', 'toggle-bookmarks'])
+const emit = defineEmits(['update:searchQuery', 'set-tag', 'toggle-bookmarks', 'create-post'])
 
 const searchFocused = ref(false)
-const searchModel = computed({
+const searchModel   = computed({
   get: () => props.searchQuery,
   set: (val) => emit('update:searchQuery', val),
 })
@@ -94,18 +108,17 @@ const searchModel = computed({
 
 <style scoped>
 .feed-header {
-  padding: 32px 32px 0 32px;
+  padding: 28px 32px 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--bg-void);
+  border-bottom: 1px solid #1e2d3d;
+  background: #0d1117;
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-/* Title row */
 .title-row {
   display: flex;
   align-items: flex-start;
@@ -124,13 +137,8 @@ const searchModel = computed({
   letter-spacing: 0.04em;
   margin-bottom: 4px;
 }
-.badge-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #42b883;
-  box-shadow: 0 0 6px #42b883;
-}
-.badge-sep { color: #2d3d4e; }
+.badge-dot  { width: 6px; height: 6px; border-radius: 50%; background: #42b883; box-shadow: 0 0 6px #42b883; }
+.badge-sep  { color: #2d3d4e; }
 .badge-port { color: #42b883; }
 
 .page-title {
@@ -148,7 +156,7 @@ const searchModel = computed({
   margin-top: 2px;
 }
 
-.header-actions { display: flex; gap: 8px; padding-top: 4px; }
+.header-actions { display: flex; align-items: center; gap: 8px; padding-top: 4px; }
 
 .action-btn {
   display: flex;
@@ -167,9 +175,38 @@ const searchModel = computed({
 .action-btn:hover { background: #161f2a; border-color: #243447; color: #8b98a8; }
 .action-btn.active { color: #ffa657; border-color: #ffa65766; background: #ffa65714; }
 
-/* Search */
-.search-row { padding-bottom: 2px; }
+/* ── Create button ── */
+.create-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  background: rgba(57,208,200,0.08);
+  border: 1px solid rgba(57,208,200,0.3);
+  border-radius: 7px;
+  color: #39d0c8;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.create-btn:hover {
+  background: rgba(57,208,200,0.14);
+  border-color: rgba(57,208,200,0.5);
+  box-shadow: 0 0 12px rgba(57,208,200,0.12);
+  transform: translateY(-1px);
+}
 
+/* Appear animation for create button */
+.btn-appear-enter-active { transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+.btn-appear-leave-active { transition: all 0.2s ease-in; }
+.btn-appear-enter-from   { opacity: 0; transform: translateX(8px); }
+.btn-appear-leave-to     { opacity: 0; transform: translateX(4px); }
+
+/* ── Search ── */
+.search-row { padding-bottom: 2px; }
 .search-wrap {
   display: flex;
   align-items: center;
@@ -182,11 +219,7 @@ const searchModel = computed({
   transition: all 0.15s;
   max-width: 560px;
 }
-.search-wrap.focused {
-  border-color: #1a6b67;
-  box-shadow: 0 0 0 3px rgba(57,208,200,0.08);
-  color: #8b98a8;
-}
+.search-wrap.focused { border-color: #1a6b67; box-shadow: 0 0 0 3px rgba(57,208,200,0.08); color: #8b98a8; }
 .search-icon { flex-shrink: 0; }
 .search-input {
   flex: 1;
@@ -200,30 +233,21 @@ const searchModel = computed({
 }
 .search-input::placeholder { color: #2d3d4e; }
 .search-clear {
-  background: none;
-  border: none;
-  color: #4d5f72;
-  cursor: pointer;
-  font-size: 11px;
-  padding: 0 2px;
-  line-height: 1;
+  background: none; border: none; color: #4d5f72;
+  cursor: pointer; font-size: 11px; padding: 0 2px;
   transition: color 0.15s;
 }
 .search-clear:hover { color: #8b98a8; }
 
-/* Tags */
+/* ── Tags ── */
 .tags-row {
   display: flex;
   gap: 6px;
   overflow-x: auto;
   padding-bottom: 16px;
-  padding-left: 1px;
-  padding-right: 1px;
-  padding-top: 3px;
   scrollbar-width: none;
 }
 .tags-row::-webkit-scrollbar { display: none; }
-
 .tag-btn {
   display: flex;
   align-items: center;
@@ -242,6 +266,5 @@ const searchModel = computed({
 }
 .tag-btn:hover:not(.active) { background: #111820; border-color: #243447; color: #8b98a8; }
 .tag-btn.active { font-weight: 500; }
-
 .tag-dot { width: 5px; height: 5px; border-radius: 50%; }
 </style>

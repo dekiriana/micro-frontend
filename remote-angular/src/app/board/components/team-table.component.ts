@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PullRequest, SortField, SortDir } from '../board/board.models';
+import { PullRequest, SortField, SortDir } from '../board.models';
 
 
 @Component({

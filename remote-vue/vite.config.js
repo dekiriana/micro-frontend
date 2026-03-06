@@ -11,7 +11,10 @@ export default defineConfig({
       exposes: {
         './VueRoot': './src/mount.js',
       },
-      shared:['vue']
+      remotes: {
+        host_devpulse: 'http://localhost:3000/assets/remoteEntry.js'
+      },
+      shared:['vue']  
     }),
   ],
   build: {target:'esnext', minify:false,cssCodeSplit:false},

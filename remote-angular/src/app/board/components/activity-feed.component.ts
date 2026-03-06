@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivityEvent } from '../board/board.models';
+import { ActivityEvent } from '../board.models';
 
 
 @Component({

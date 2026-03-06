@@ -1,0 +1,272 @@
+/* LoginModal.module.css */
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px); }
+  60%       { transform: translateX(-5px); }
+  80%       { transform: translateX(5px); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── OVERLAY ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 9, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+  animation: overlayIn 0.2s ease-out;
+}
+
+/* ── MODAL ── */
+.modal {
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 14px;
+  overflow: hidden;
+  animation: modalIn 0.3s var(--ease-out);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+.shake { animation: shake 0.4s ease-out; }
+
+/* ── HEADER ── */
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-base);
+}
+.modalTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.closeBtn {
+  width: 28px; height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+.closeBtn:hover { background: var(--bg-hover); border-color: var(--border-default); color: var(--text-secondary); }
+
+/* ── BODY ── */
+.modalBody {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loginIntro { display: flex; flex-direction: column; gap: 4px; }
+.loginTitle {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.loginSub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Error */
+.errorBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(229, 57, 61, 0.08);
+  border: 1px solid rgba(229, 57, 61, 0.3);
+  border-radius: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #e5393d;
+}
+
+/* Form */
+.form { display: flex; flex-direction: column; gap: 14px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-base);
+  border: 1px solid var(--border-default);
+  border-radius: 7px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input:focus {
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.input::placeholder { color: var(--text-dim); }
+.input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.inputWrap { position: relative; }
+.inputWrap .input { padding-right: 40px; }
+.togglePw {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 4px;
+  transition: color 0.15s;
+}
+.togglePw:hover { color: var(--text-secondary); }
+
+.submitBtn {
+  padding: 12px;
+  background: var(--accent);
+  color: var(--bg-void);
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  width: 100%;
+  text-align: center;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+.submitBtn:hover:not(:disabled) {
+  background: #52dbd6;
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+.submitBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.loadingRow { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.spinner {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(6,8,9,0.3);
+  border-top-color: var(--bg-void);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── JWT PREVIEW ── */
+.jwtPreview {
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.jwtLabel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.jwtDot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.jwtTerminal {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.jwtSection { display: flex; flex-direction: column; gap: 3px; }
+.jwtSectionLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+.jwtCode {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.5;
+  white-space: pre;
+  opacity: 0.85;
+}
+.jwtNote {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* ── DEMO ROW ── */
+.demoRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-base);
+  flex-wrap: wrap;
+}
+.demoLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+.demoBtn {
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--demo-color) 40%, transparent);
+  border-radius: 4px;
+  color: var(--demo-color);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.demoBtn:hover {
+  background: color-mix(in srgb, var(--demo-color) 12%, transparent);
+}
+.demoBtn:disabled { opacity: 0.4; cursor: not-allowed; }

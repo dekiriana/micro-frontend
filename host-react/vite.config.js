@@ -14,21 +14,26 @@ export default defineConfig(({ mode }) => {
           remote_vue: `${env.VITE_VUE_FEED_URL}/assets/remoteEntry.js`,
           remote_angular: `${env.VITE_ANGULAR_BOARD_URL}/remoteEntry.js`,
         },
-        shared: ['react', 'react-dom'],
+        // 1. TAMBAHKAN EXPOSES INI
+        exposes: {
+          './AuthCore': './src/auth/auth-core-proxy.js',
+        },
+        // 2. TAMBAHKAN SHARED INI
+        shared: {
+          react: { singleton: true, requiredVersion: '^18.0.0' },
+          'react-dom': { singleton: true, requiredVersion: '^18.0.0' },
+          '@devpulse/auth-core': { singleton: true, requiredVersion: '1.0.0' },
+        },
       }),
     ],
-    build: {
-      target: 'esnext',
-      minify: false,
-      cssCodeSplit: false,
+    // 3. TAMBAHKAN ALIAS INI AGAR REACT HOST BISA MEMBACA ALIASNYA SENDIRI
+    resolve: {
+      alias: {
+        '@devpulse/auth-core': new URL('./src/auth/auth-core-proxy.js', import.meta.url).pathname,
+      },
     },
-    server: {
-      port: 3000,
-      cors: true,
-    },
-    preview: {
-      port: 3000,
-      cors: true,
-    },
+    build: { target: 'esnext', minify: false, cssCodeSplit: false },
+    server: { port: 3000, cors: true },
+    preview: { port: 3000, cors: true },
   };
 });

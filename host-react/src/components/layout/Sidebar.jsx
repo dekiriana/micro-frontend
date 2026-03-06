@@ -1,7 +1,7 @@
 import React from 'react'
-import { useApp } from '../../context/AppContext'
+import { useAuth } from '../../auth/useAuth' 
+import { useApp } from '../../context/AppContext' 
 import styles from './Sidebar.module.css'
-
 
 function IconFeed() {
   return (
@@ -34,6 +34,13 @@ function IconCollapse() {
     </svg>
   )
 }
+function IconLogout() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+    </svg>
+  )
+}
 
 const ICON_MAP = { feed: IconFeed, board: IconBoard, home: IconHome }
 
@@ -55,11 +62,14 @@ function StatusDot({ status }) {
   )
 }
 
-export default function Sidebar() {
-  const { activeNav, navigate, sidebarOpen, setSidebarOpen, navItems, remoteStatus, user } = useApp()
+export default function Sidebar({ onLogout }) {
+  const { user, role } = useAuth()
+  const { activeNav, navigate, sidebarOpen, setSidebarOpen, navItems, remoteStatus } = useApp()
 
   return (
     <aside className={`${styles.sidebar} ${sidebarOpen ? styles.open : styles.collapsed}`}>
+      
+      {/* ===== LOGO ===== */}
       <div className={styles.logo}>
         <div 
           className={styles.logoMark}
@@ -80,7 +90,6 @@ export default function Sidebar() {
           </div>
         )}
 
-       
         {sidebarOpen && (
           <button
             className={styles.collapseBtn}
@@ -95,7 +104,7 @@ export default function Sidebar() {
         )}
       </div>
 
-     
+      {/* ===== NAV ===== */}
       <nav className={styles.nav}>
         {sidebarOpen && <span className={styles.sectionLabel}>// REMOTES</span>}
 
@@ -140,10 +149,9 @@ export default function Sidebar() {
         })}
       </nav>
 
-     
       <div style={{ flex: 1 }} />
 
-     
+      {/* ===== LEGEND ===== */}
       {sidebarOpen && (
         <div className={styles.legend}>
           <span className={styles.sectionLabel}>// FEDERATION</span>
@@ -164,15 +172,23 @@ export default function Sidebar() {
         </div>
       )}
 
-     
-      <div className={styles.userSection}>
-        <div className={styles.avatar}>{user.avatar}</div>
-        {sidebarOpen && (
+      {/* ===== FOOTER (User & Logout) ===== */}
+      <div className={styles.sidebarFooter}>
+        {sidebarOpen && user && (
           <div className={styles.userInfo}>
             <span className={styles.userName}>{user.name}</span>
-            <span className={styles.userRole}>{user.role}</span>
+            <span className={styles.userRole}>role: {role}</span>
           </div>
         )}
+
+        <button 
+          className={`${styles.logoutBtn} ${!sidebarOpen ? styles.logoutCollapsed : ''}`} 
+          onClick={onLogout}
+          title={!sidebarOpen ? "Sign Out" : undefined}
+        >
+          <span className={styles.logoutIconWrap}><IconLogout /></span>
+          {sidebarOpen && <span>Sign Out</span>}
+        </button>
       </div>
     </aside>
   )

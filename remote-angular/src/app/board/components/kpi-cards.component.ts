@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { KpiMetric } from '../board/board.models';
+import { KpiMetric } from '../board.models';
 
 
 @Component({

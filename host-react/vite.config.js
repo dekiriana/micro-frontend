@@ -11,9 +11,8 @@ export default defineConfig(({ mode }) => {
       federation({
         name: 'host_devpulse',
         remotes: {
-          // Sekarang URL-nya dinamis mengikuti isi file .env!
-          remote_feed: `${env.VITE_VUE_FEED_URL}/assets/remoteEntry.js`,
-          remote_board: `${env.VITE_ANGULAR_BOARD_URL}/remoteEntry.js`,
+          remote_vue: `${env.VITE_VUE_FEED_URL}/assets/remoteEntry.js`,
+          remote_angular: `${env.VITE_ANGULAR_BOARD_URL}/remoteEntry.js`,
         },
         shared: ['react', 'react-dom'],
       }),

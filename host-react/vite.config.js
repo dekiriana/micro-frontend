@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import federation from '@originjs/vite-plugin-federation'
@@ -14,11 +15,9 @@ export default defineConfig(({ mode }) => {
           remote_vue: `${env.VITE_VUE_FEED_URL}/assets/remoteEntry.js`,
           remote_angular: `${env.VITE_ANGULAR_BOARD_URL}/remoteEntry.js`,
         },
-        // 1. TAMBAHKAN EXPOSES INI
         exposes: {
           './AuthCore': './src/auth/auth-core-proxy.js',
         },
-        // 2. TAMBAHKAN SHARED INI
         shared: {
           react: { singleton: true, requiredVersion: '^18.0.0' },
           'react-dom': { singleton: true, requiredVersion: '^18.0.0' },
@@ -26,7 +25,6 @@ export default defineConfig(({ mode }) => {
         },
       }),
     ],
-    // 3. TAMBAHKAN ALIAS INI AGAR REACT HOST BISA MEMBACA ALIASNYA SENDIRI
     resolve: {
       alias: {
         '@devpulse/auth-core': new URL('./src/auth/auth-core-proxy.js', import.meta.url).pathname,
